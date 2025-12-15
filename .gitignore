@@ -1,0 +1,10 @@
+# Data files
+data/*.csv
+
+# Models
+*.joblib
+*.pkl
+model/*.joblib
+
+# Python cache
+__pycache__/
