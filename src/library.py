@@ -20,6 +20,5 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
-from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline
 print("Library imports successful")
