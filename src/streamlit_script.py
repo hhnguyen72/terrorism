@@ -25,6 +25,7 @@ def loading_df():
              'Weapon_Type', 'ismilitary', 'Nationality', 'success']]
     return df
 
+
 def input_data_sl(df):
     regions = df['Region'].unique()
     attack_types = df['Attack_Type'].unique()
@@ -32,13 +33,20 @@ def input_data_sl(df):
     nationalities = df['Nationality'].unique()
 
     # 
-    year = st.slider("Select the year", 1970, 2017, 1970)
-    month = st.slider("Select the month", 0, 12, 0)
-    region = st.selectbox("Select the Region", options = regions)
-    atk_type = st.selectbox("Select the Attack Method", options = attack_types)
-    weapon_types = st.selectbox("Select the Weapon", options = weapon_types)
-    ismilitary = st.slider("Is the target military", 0, 1, 1)
-    nationality = st.selectbox("Select the target's nationality", options = nationalities)
+    cols = st.columns(3)
+
+    with cols[0].container():
+        year = st.slider("Select the year", 1970, 2017, 1970)
+        month = st.slider("Select the month", 0, 12, 0)
+
+    with cols[1].container():
+        region = st.selectbox("Select the Region", options = regions)
+        atk_type = st.selectbox("Select the Attack Method", options = attack_types)
+        weapon_types = st.selectbox("Select the Weapon", options = weapon_types)
+
+    with cols[2].container():
+        ismilitary = st.slider("Is the target military", 0, 1, 1)
+        nationality = st.selectbox("Select the target's nationality", options = nationalities)
 
     input_data_df = pd.DataFrame([{
         'Year': year,
@@ -50,6 +58,7 @@ def input_data_sl(df):
         'Nationality' : nationality
     }])
     return input_data_df
+
 
 def predict_w_model(streamlit_input, model_path):
     # Load models
@@ -75,3 +84,4 @@ def predict_w_model(streamlit_input, model_path):
         "confidence": confidence_score,
         'coefficients': coefficients
     }
+
