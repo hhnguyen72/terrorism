@@ -31,57 +31,71 @@ def input_data_sl(df):
     attack_types = df['Attack_Type'].unique()
     weapon_types = df['Weapon_Type'].unique()
     nationalities = df['Nationality'].unique()
+    months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ]
 
     # 
     cols = st.columns(3)
 
-    with cols[0].container():
-        year = st.slider("Select the year", 1970, 2017, 1970)
-        month = st.slider("Select the month", 0, 12, 0)
+    with cols[0]:
+        st.subheader("Temporal Context")
+        year = st.slider("Year of Incident", 1970, 2017, 1970)
+        month_index = st.selectbox("Month of Incident", options=list(range(12)), format_func=lambda x: months[x])
 
-    with cols[1].container():
-        region = st.selectbox("Select the Region", options = regions)
-        atk_type = st.selectbox("Select the Attack Method", options = attack_types)
-        weapon_types = st.selectbox("Select the Weapon", options = weapon_types)
+    # Spatial and Tactical
+    with cols[1]:
+        st.subheader("Operational Characteristics")
+        region = st.selectbox("Region of Incident", options=regions)
+        atk_type = st.selectbox("Attack Method", options=attack_types)
+        weapon_type = st.selectbox("Weapon Used", options=weapon_types)
 
-    with cols[2].container():
-        ismilitary = st.slider("Is the target military", 0, 1, 1)
-        nationality = st.selectbox("Select the target's nationality", options = nationalities)
+    # Target Details
+    with cols[2]:
+        st.subheader("Target Profile")
+        st.markdown("<br>", unsafe_allow_html=True)
+        is_military = st.checkbox("Target is Military Personnel", value=True)
+        nationality = st.selectbox("Target Nationality", options=nationalities)
 
+    # Build DataFrame
     input_data_df = pd.DataFrame([{
         'Year': year,
-        'Month': month,
-        'Region' : region,
+        'Month': month_index + 1,
+        'Region': region,
         'Attack_Type': atk_type,
-        'Weapon_Type' : weapon_types,
-        'ismilitary' : ismilitary,
-        'Nationality' : nationality
+        'Weapon_Type': weapon_type,
+        'ismilitary': int(is_military),
+        'Nationality': nationality
     }])
     return input_data_df
 
 
 def predict_w_model(streamlit_input, model_path):
-    # Load models
+# Load model
     saved_data = joblib.load(model_path)
     model = saved_data['model']
     metadata = saved_data['metadata']
     coefficients = saved_data['coefficients']
 
+    # Make prediction
     prediction = model.predict(streamlit_input)
     confidence = model.predict_proba(streamlit_input)
+    confidence_score = confidence[0][prediction[0]]
 
     # Human-readable interpretation
     interpretation = "Likely to succeed" if prediction[0] == 1 else "Likely to fail"
-    confidence_score = confidence[0][prediction[0]]
 
-    print(f"Model: {metadata.get('model_name', model_path)}")
-    print(f"Prediction: {interpretation} ({confidence_score*100:.2f}% Confidence)\n")
-    print(f"{coefficients}")
-    
+    # Color-blind friendly color
+    color = "#2ca02c" if prediction[0] == 1 else "#d62728"  # green/red alternative
+    symbol = "✅" if prediction[0] == 1 else "❌"
+
+    # Display in Streamlit
+    st.markdown(f"<span style='color:{color}; font-weight:bold'>{symbol} {interpretation} ({confidence_score*100:.2f}% Confidence)</span>", unsafe_allow_html=True)
+
     return {
         "model_name": metadata.get('model_name', model_path),
         "prediction": interpretation,
         "confidence": confidence_score,
-        'coefficients': coefficients
+        "coefficients": coefficients
     }
-
