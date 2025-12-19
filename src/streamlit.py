@@ -47,20 +47,28 @@ with tab2:
     with cols[0]:
         st.subheader("Source & References")
         st.markdown(
-                "Data source: [Global Terrorism Database (GTD)](https://www.kaggle.com/datasets/START-UMD/gtd)  \n"
-                "Additional Resource: [GTB Codebook](https://www.start.umd.edu/sites/default/files/2024-10/Codebook.pdf)  \n"
-            )
-    
+                "**Authors:** The Study of Terrorism and Responses to Terrorism (START)  \n"
+                "**Dataset:** [Global Terrorism Database (GTD)](https://www.kaggle.com/datasets/START-UMD/gtd)  \n"
+                 "**Additional Resources:**  \n"
+                "[GTD Codebook](https://www.start.umd.edu/sites/default/files/2024-10/Codebook.pdf)  \n"
+                "[UMD START – GTD Portal](https://www.start.umd.edu/data-tools/GTD#Top)"
+        )
+
     with cols[1]:
         st.subheader("Cleaned Dataset")
         st.markdown(
-                    "Numerical Columns: [Year, Month, ismilitary, success]  \n"
-                    "Categorical Columns: [Region, Attack_Type, Weapon_Type, Nationality]  \n"
-                    f"Columns, Rows After Cleaning: {df.shape}"
+                    f"- Numerical Columns: [Year, Month, ismilitary, success]  \n"
+                    f"- Categorical Columns: [Region, Attack_Type, Weapon_Type, Nationality]  \n"
+                    f"- Columns, Rows After Cleaning: {df.shape}"
         )
         st.markdown("<br>", unsafe_allow_html=True)
 
     with cols[2]:
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.subheader("Dataset Scope & Limits")
+        st.markdown(
+                    "- Historical terrorism data stops at 2017  \n"
+        "- Reporting bias may lead to underreported incidents  \n"
+        "- Suitable for training, pattern analysis, and baseline risk modeling for global terrorism"
+        )
     
     st.dataframe(df)

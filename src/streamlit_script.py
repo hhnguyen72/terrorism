@@ -27,10 +27,10 @@ def loading_df():
 
 
 def input_data_sl(df):
-    regions = df['Region'].unique()
-    attack_types = df['Attack_Type'].unique()
-    weapon_types = df['Weapon_Type'].unique()
-    nationalities = df['Nationality'].unique()
+    regions = sorted(df['Region'].dropna().unique())
+    attack_types = sorted(df['Attack_Type'].dropna().unique())
+    weapon_types = sorted(df['Weapon_Type'].dropna().unique())
+    nationalities = sorted(df['Nationality'].dropna().unique())
     months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
