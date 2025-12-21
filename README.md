@@ -11,10 +11,10 @@
   - [Data Visualization](#data-visualization)
 - [Models Selected](#models-selected)
 - [Data Pipeline](#data-pipeline)
-  - [Features & Target](#features-&-target)
   - [Preprocessor](#preprocessor)
   - [Model Fitting](#model-fitting)
   - [Joblib](#joblib)
+- [Streamlit](#streamlit)
 - [Future Directions](#future-directions)
 
 ## Overview
@@ -127,26 +127,27 @@ Function:
 
 
 
-
 ### Data Visualization
+
+
 
 
 ## Models Selected
 
 
-
-
-
-## Data Pipeline
-
-### Features & Target
+Features & Target
 
     X = df[['Year', 'Month', 'Region', 'Attack_Type',
             'Weapon_Type', 'ismilitary', 'Nationality']]
     y = df['success']
 
 
+
+## Data Pipeline
+
+
 ### Preprocessor
+
 
     def pipeline_preprocessor():
         #1. Load Dataset
@@ -180,7 +181,7 @@ Function:
             ])
         
         categorical_transformer = Pipeline(steps=[
-            ("imputer", SimpleImputer(strategy='constant', fill_value='Unknown')),  # fill missing first (Nationality)
+            ("imputer", SimpleImputer(strategy='constant', fill_value='Unknown')),
             ("onehot", OneHotEncoder(sparse_output=False, handle_unknown="ignore"))
             ])
     
@@ -197,17 +198,31 @@ Function:
 ### Model Fitting
 
 
+    def fit_log_reg(preprocessor, X_train, X_test, y_train, y_test):
+        log_reg_model = Pipeline([
+            ('preprocess', preprocessor),
+            ('model', LogisticRegression(solver='saga'))
+            ])
+    
+        # 9. Fit model
+        log_reg_model.fit(X_train, y_train)
+        log_score = log_reg_model.score(X_test, y_test)
+        y_pred_lr = log_reg_model.predict(X_test)
+    
+        print(f"Logisitic Regression Score: {log_score:.4f}")
+        print(f"Logisitic Regression Accurary: {log_score *100:.2f}")
+        return log_reg_model, log_score, y_pred_lr
+    
+    log_reg_model, log_score, y_pred_lr = fit_log_reg(preprocessor, X_train, X_test, y_train, y_test)
 
 
 ### Joblib
 
-To enable my three models 
-streamlit 
-Easy, transifable function 
+After fitting and evaluating my three models, I preserved my trained models and their corresponding metadata using joblib to enable reproducibility and deployment.
 
     # Save the model to a file
-    lg_metadata = {
-        "model_name": "lg_terrorist_success_rate",
+    (lg/rfc/bm)_metadata = {
+        "model_name": "(lg/rfc/bm)_terrorist_success_rate",
         "trained_date": "2025-12-12",
         "training_data_description": (
             "Predicting a terrorist attack's success rate based on "
@@ -219,9 +234,12 @@ Easy, transifable function
     }
     
     # Save the model and metadata to a file
-    joblib.dump({'model': log_reg_model, 'coefficients': log_reg_coeff, 'metadata': lg_metadata}, '../model/lg_terrorist_success_rate.joblib')
-    print("Logisitic Regression saved successfully with coeff and metadata.")
-
-Streamlit: run streamlit run streamlit.py 
+    joblib.dump({'model': (lg/rfc/bm)_model, 'coefficients': (lg/rfc/bm)_coeff, 'metadata': (lg/rfc/bm)_metadata}, '../model/(lg/rfc/bm)_terrorist_success_rate.joblib')
+    print("(lg/rfc/bm) saved successfully with coeff and metadata.")
 
 
+## Streamlit
+
+
+
+## Future Direction
