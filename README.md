@@ -1,9 +1,10 @@
 # Threat Assessment Operations (TAO) - 
-## Hung Nguyen, Supra Coder Data & Development Immersive Cohort 13 Capstone
+## Hung Nguyen, Supra Coder DDI (Data & Development Immersive) Cohort 13 Capstone
 
 ## Table of Contents
 - [Overview](#overview)
   - [Project Proposal](#project_proposal)
+  - [Crediting Dataset](#
   - [Pre-Data Cleaning](#pre-data-cleaning)
 - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Cleaning](#data-cleaning)
@@ -11,23 +12,31 @@
 - [Models Selected](#models-selected)
 - [Data Pipeline](#data-pipeline)
   - [Features & Target](#features-&-target)
-  -  
+  - [Preprocessor](#preprocessor)
+  - [Model Fitting](#model-fitting)
+  - [Joblib](#joblib)
+- [Future Directions](#future-directions)
 
 ## Overview
 
 ### Project Proposal
-    State your question. What is it that you are curious about? What are you looking for in the data
-    State your MVP. MVP is your Minimum Viable Product. What's the minimum that you hope to accomplish? Then, feel free to expand on MVP+ and MVP++.
+
+For my DDI capstone, 
+Question/Scope/Direction:
+
+    How can we model insights from historical terrorist incidents to enhance training and risk awareness in a Terrorist Risk Assessment?
+
+    
+Minimum Viable Product (MVP)
 
 
 ### Pre-Data Cleaning 
 
-Data Shape (rows, columns)
+Data Shape (rows, columns):
 
     (181691, 135)
 
-Normally, DataFrame.info() lists the data type for each column. However, because this dataset contains 135 columns, the detailed per-column output is omitted here.
-I have written a function to address the omitted output issue: this function extracts, identifies, and prints each column's dtype, as well as the numerical/categorical columns distribution.
+Normally, DataFrame.info() lists and prints the data type for each column. However, because this dataset contains 135 columns, the detailed per-column output is omitted here. I have written a function to address the omitted output issue: this function extracts, identifies, and prints each column's dtype, as well as the numerical/categorical columns distribution.
 
 Function:
 
@@ -126,5 +135,93 @@ Function:
 
 
 
+
+
 ## Data Pipeline
+
+### Features & Target
+
+    X = df[['Year', 'Month', 'Region', 'Attack_Type',
+            'Weapon_Type', 'ismilitary', 'Nationality']]
+    y = df['success']
+
+
+### Preprocessor
+
+    def pipeline_preprocessor():
+        #1. Load Dataset
+        df = pd.read_csv('../data/globalterrorismdb_0718dist.csv')
+        df = df.copy()
+    
+        #2. Data Cleaning
+        df = df.rename(columns={'iyear': 'Year', 'imonth': 'Month','region_txt': 'Region', 
+                                'attacktype1_txt': 'Attack_Type', 'weaptype1_txt': 'Weapon_Type', 'natlty1_txt': 'Nationality'})
+        
+        # Mapping
+        df['ismilitary'] = df['targtype1_txt'].apply(lambda x: 1 if x == 'Military' else 0)
+    
+        # 3. Selecting Features and Target
+        X = df[['Year', 'Month', 'Region', 'Attack_Type',
+                'Weapon_Type', 'ismilitary', 'Nationality']]
+        y = df['success']
+    
+        # 4. Train-test split
+        X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42, stratify=y)
+    
+        # 5. Identify numeric vs categorical columns
+        numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
+        categorical_features = X.select_dtypes(include=['object']).columns.tolist()
+    
+        # 6. Transform pipelines
+        numeric_transformer = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy="mean")),
+            ("scaler", MinMaxScaler())
+            ])
+        
+        categorical_transformer = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy='constant', fill_value='Unknown')),  # fill missing first (Nationality)
+            ("onehot", OneHotEncoder(sparse_output=False, handle_unknown="ignore"))
+            ])
+    
+        # 7. Column transformer
+        preprocessor = ColumnTransformer(transformers=[
+            ("num", numeric_transformer, numeric_features),
+            ("cat", categorical_transformer, categorical_features)
+            ])
+        
+        return preprocessor, X_train, X_test, y_train, y_test
+    
+    preprocessor, X_train, X_test, y_train, y_test = pipeline_preprocessor()
+
+### Model Fitting
+
+
+
+
+### Joblib
+
+To enable my three models 
+streamlit 
+Easy, transifable function 
+
+    # Save the model to a file
+    lg_metadata = {
+        "model_name": "lg_terrorist_success_rate",
+        "trained_date": "2025-12-12",
+        "training_data_description": (
+            "Predicting a terrorist attack's success rate based on "
+            "Year, Month, Region, Attack_Type, Weapon_Type, "
+            "ismilitary, and Nationality"
+        ),
+        "accuracy": 0.89,
+        "author": "Hung Nguyen"
+    }
+    
+    # Save the model and metadata to a file
+    joblib.dump({'model': log_reg_model, 'coefficients': log_reg_coeff, 'metadata': lg_metadata}, '../model/lg_terrorist_success_rate.joblib')
+    print("Logisitic Regression saved successfully with coeff and metadata.")
+
+Streamlit: run streamlit run streamlit.py 
+
 
