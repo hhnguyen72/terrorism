@@ -6,6 +6,7 @@
   - [Project Proposal](#project-proposal)
   - [Crediting Dataset](#crediting-dataset)
   - [Pre-Data Cleaning](#predata-cleaning)
+- [Environment Setup](#environment-setup)
 - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Cleaning](#data-cleaning)
   - [Data Visualization](#data-visualization)
@@ -42,6 +43,7 @@ Data Collected: Historical terrorist incidents worldwide, including attack types
 - [Kaggle GTD dataset](https://www.kaggle.com/datasets/START-UMD/gtd)  
 - [GTD Codebook](https://www.start.umd.edu/gtd/)  
 - [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
+
 
 
 ### PreData Cleaning 
@@ -118,13 +120,24 @@ Sample:
     | doubtterr         | 1             |
 
 
+## Environment Setup
 
+To replicate the environment exactly, run:
+
+    ```bash
+    1. Create the Conda environment from the YAML
+    conda env create -f ml_global_terror_env.yml
+
+    2. Activate the environment
+    conda activate ml_global_terror_env
+    '''
 
 ## Exploratory Data Analysis
 
 ### Data Cleaning 
 
 Selecting and renaming which columns to focus.
+
 Function:
 
     def data_man(df):
@@ -138,34 +151,47 @@ Function:
         df = rename_cols
     df = data_man(df)
 
-
-
+![Heatmap](img/heatmap_features.png)
 
 ### Data Visualization
 
+![Timeline](img/timeline.png)
+
+
+![Region](img/terrorist_incidents_by_region.png)
 
 
 
 ## Models Selected
 
+Used:
+    sklearn.linear_model: LogisticRgression
+    sklearn.ensemble: RandomForestClassifier
+    Hyperparamter: RandomForestClassfier
 
+
+![cm_lr](img/cm_lr.png)
+
+
+![cm_rfc](img/cm_rf.png)
 
 
 
 Features & Target
+
 
     X = df[['Year', 'Month', 'Region', 'Attack_Type',
             'Weapon_Type', 'ismilitary', 'Nationality']]
     y = df['success']
 
 
+![CleanDataset](img/clean_df.png)
+
+
 
 ## Data Pipeline
 
-
-
 ### Preprocessor
-
 
     def pipeline_preprocessor():
         #1. Load Dataset
@@ -257,6 +283,9 @@ After fitting and evaluating my three models, I preserved my trained models and 
 
 
 ## Streamlit
+
+![Homepage](img/tra_homepage.png)
+
 
 
 
