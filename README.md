@@ -29,18 +29,19 @@ Research Question
     
 Minimum Viable Product (MVP)
 
-The Terrorist Risk Assessor (TRA) consists of trained machine learning classification models deployed through an interactive Streamlit application. Streamlit enables rapid web-based deployment, allowing live demonstrations through a simple and accessible user interface. The TRA is a lightweight wargaming and training tool that enables users to explore and interact with historical or hypothetical incident parameters and observe how changes in inputs influence model outputs related to attack success. The MVP is intended as a complementary analytical tool, supporting Terrorist Risk Assessment by enhancing risk awareness and analytical reasoning rather than replacing human judgment.
+The Terrorist Risk Assessor (TRA) consists of trained machine learning classification models deployed through an interactive Streamlit application. Streamlit enables rapid web-based deployment, allowing live demonstrations through a simple and accessible user interface. TRA is a lightweight wargaming and training tool. Users can interact with historical or hypothetical incident parameters and see how changes affect predicted attack outcomes. The MVP is intended as a complementary analytical tool, supporting Terrorist Risk Assessment by enhancing risk awareness and analytical reasoning rather than replacing human judgment.
 
 ### Crediting Dataset
 
-    Dataset: Terrorism Database (GTD) 
-    Authors / Maintainers: Study of Terrorism and Responses to Terrorism (START), University of Maryland
-    Data Collected: Historical terrorist incidents worldwide, including attack types, targets, perpetrators, and outcomes
-    
-    **Additional Resources:**  
-    - [Kaggle GTD dataset](https://www.kaggle.com/datasets/START-UMD/gtd)  
-    - [GTD Codebook](https://www.start.umd.edu/gtd/)  
-    - [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
+Dataset: Terrorism Database (GTD)  
+Authors / Maintainers: Study of Terrorism and Responses to Terrorism (START), University of Maryland  
+Data Collected: Historical terrorist incidents worldwide, including attack types, targets, perpetrators, and outcomes
+
+
+**Additional Resources:**  
+- [Kaggle GTD dataset](https://www.kaggle.com/datasets/START-UMD/gtd)  
+- [GTD Codebook](https://www.start.umd.edu/gtd/)  
+- [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
 
 
 ### PreData Cleaning 
