@@ -1,11 +1,11 @@
-# Threat Assessment Operations (TAO) - 
+# Threat Assessment Operations (TAO) 
 ## Hung Nguyen, Supra Coder DDI (Data & Development Immersive) Cohort 13 Capstone
 
 ## Table of Contents
 - [Overview](#overview)
-  - [Project Proposal](#project_proposal)
+  - [Project Proposal](#project-proposal)
   - [Crediting Dataset](#crediting-dataset)
-  - [Pre-Data Cleaning](#pre-data-cleaning)
+  - [Pre-Data Cleaning](#predata-cleaning)
 - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Cleaning](#data-cleaning)
   - [Data Visualization](#data-visualization)
@@ -43,7 +43,7 @@ The Terrorist Risk Assessor (TRA) consists of trained machine learning classific
     - [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
 
 
-### Pre-Data Cleaning 
+### PreData Cleaning 
 
 Data Shape (rows, columns):
 
