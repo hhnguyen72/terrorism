@@ -4,7 +4,7 @@
 ## Table of Contents
 - [Overview](#overview)
   - [Project Proposal](#project_proposal)
-  - [Crediting Dataset](#
+  - [Crediting Dataset](#crediting-dataset)
   - [Pre-Data Cleaning](#pre-data-cleaning)
 - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Cleaning](#data-cleaning)
@@ -21,13 +21,32 @@
 
 ### Project Proposal
 
-For my DDI capstone, 
-Question/Scope/Direction:
+Threat Assessment Operations (TAO) 
 
-    How can we model insights from historical terrorist incidents to enhance training and risk awareness in a Terrorist Risk Assessment?
 
+Research Question
+
+    - How can we model insights from historical terrorist incidents to enhance training effectiveness and risk awareness in Terrorist Risk Assessment?
     
 Minimum Viable Product (MVP)
+
+The Terrorist Risk Assessor (TRA) consists of trained machine learning classification models deployed through an interactive Streamlit application. Streamlit enables rapid web-based deployment, allowing live demonstrations through a simple and accessible user interface. The TRA is a lightweight wargaming and training tool that enables users to explore and interact with historical or hypothetical incident parameters and observe how changes in inputs influence model outputs related to attack success. The MVP is intended as a complementary analytical tool, supporting Terrorist Risk Assessment by enhancing risk awareness and analytical reasoning rather than replacing human judgment.
+
+### Crediting Dataset
+
+
+Source & References
+
+Authors: The Study of Terrorism and Responses to Terrorism (START)
+Dataset: Global Terrorism Database (GTD)
+Additional Resources:
+GTD Codebook
+UMD START – GTD Portal
+Cleaned Dataset
+
+    Numerical Columns: [Year, Month, ismilitary, success]
+    Categorical Columns: [Region, Attack_Type, Weapon_Type, Nationality]
+    Columns, Rows After Cleaning: (181691, 8)
 
 
 ### Pre-Data Cleaning 
@@ -135,6 +154,9 @@ Function:
 ## Models Selected
 
 
+
+
+
 Features & Target
 
     X = df[['Year', 'Month', 'Region', 'Attack_Type',
@@ -144,6 +166,7 @@ Features & Target
 
 
 ## Data Pipeline
+
 
 
 ### Preprocessor
