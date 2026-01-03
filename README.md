@@ -21,8 +21,7 @@
 
 ### Project Proposal
 
-Threat Assessment Operations (TAO) 
-
+Threat Assessment Operations (TAO) is a capstone project that documents exploratory data analysis and implements machine learning classification models to analyze historical terrorist incident data to support training-oriented Terrorist Risk Assessment via wargaming, scenario-based exercises and interactive user analysis.   
 
 Research Question
 
@@ -34,19 +33,14 @@ The Terrorist Risk Assessor (TRA) consists of trained machine learning classific
 
 ### Crediting Dataset
 
-
-Source & References
-
-Authors: The Study of Terrorism and Responses to Terrorism (START)
-Dataset: Global Terrorism Database (GTD)
-Additional Resources:
-GTD Codebook
-UMD START – GTD Portal
-Cleaned Dataset
-
-    Numerical Columns: [Year, Month, ismilitary, success]
-    Categorical Columns: [Region, Attack_Type, Weapon_Type, Nationality]
-    Columns, Rows After Cleaning: (181691, 8)
+    Dataset: Terrorism Database (GTD) 
+    Authors / Maintainers: Study of Terrorism and Responses to Terrorism (START), University of Maryland
+    Data Collected: Historical terrorist incidents worldwide, including attack types, targets, perpetrators, and outcomes
+    
+    **Additional Resources:**  
+    - [Kaggle GTD dataset](https://www.kaggle.com/datasets/START-UMD/gtd)  
+    - [GTD Codebook](https://www.start.umd.edu/gtd/)  
+    - [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
 
 
 ### Pre-Data Cleaning 
