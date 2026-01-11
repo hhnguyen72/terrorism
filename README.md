@@ -11,6 +11,7 @@
   - [Data Cleaning](#data-cleaning)
   - [Data Visualization](#data-visualization)
 - [Models Selected](#models-selected)
+  - [Confusion Matrix](#confusion-matrix)
 - [Data Pipeline](#data-pipeline)
   - [Preprocessor](#preprocessor)
   - [Model Fitting](#model-fitting)
@@ -26,7 +27,7 @@ Threat Assessment Operations (TAO) is a capstone project that documents explorat
 
 Research Question
 
-    How can we model insights from historical terrorist incidents to enhance training effectiveness and risk awareness in Terrorist Risk Assessment?
+How can we model insights from historical terrorist incidents to enhance training effectiveness and risk awareness in Terrorist Risk Assessment?
     
 Minimum Viable Product (MVP)
 
@@ -105,7 +106,7 @@ To replicate the environment exactly, run:
 
 ### Data Cleaning 
 
-Key steps performed on the dataset:
+The authors/maintainers have already cleaned and formatted the dataset; so, I worked with the pre-processed dataset. Key steps performed on the dataset:
 
 - Checked for Duplicates: None found
 - Selected 7 columns out of 135 for target and features
@@ -115,20 +116,10 @@ Key steps performed on the dataset:
 
 ![CleanDataset](img/clean_df.png)
 
-Note: The authors/maintainers have already cleaned and formated the dataset; I worked with the pre-processed dataset.
-
-
 ### Data Visualization
 
-![Heatmap](img/heatmap_features.png)
-
-
-
 ![Timeline](img/timeline.png)
-
-
 ![Region](img/terrorist_incidents_by_region.png)
-
 
 
 ## Models Selected
@@ -142,29 +133,28 @@ Here's the following classification models used for the MVP:
     - Hyperparameter tuning: RandomForestClassfier
 
 
-![cm_lr](img/cm_lr.png)
+For MVP, I will be selecting the following features (X) & target (y): 
 
-
-![cm_rfc](img/cm_rf.png)
-
-        # 3. Selecting Features and Target
-        X = df[['Year', 'Month', 'Region', 'Attack_Type',
-                'Weapon_Type', 'ismilitary', 'Nationality']]
-        y = df['success']
-
-Features & Target
-
-
-    X = df[['Year', 'Month', 'Region', 'Attack_Type',
-            'Weapon_Type', 'ismilitary', 'Nationality']]
+    X = df[['Year', 'Month', 'Region', 'Attack_Type','Weapon_Type', 'ismilitary', 'Nationality']]
     y = df['success']
 
+The heatmap below shows correlations between the selected features and the target, helping to visualize which features may have stronger relationships with attack success before training any classification models.
 
+![Heatmap](img/heatmap_features.png)
 
+### Confusion Matrix
+
+The two confusion matrices below show how well the corresponding classification model predicted between successful and prevented terrorist incidents.
+
+- True Positives (top-left) indicate the model correctly predicted the attacks as unsuccessful.
+- False Positives (top-right) indicate the model incorrectly predicted the attacks as unsucessful 
+- True Negatives (bottom-right) indicate the model correctly predicted the attacks as successful.
+- False Negatives (bottom-left) indicate the model incorrectly predicted the attacks as sucessful
+
+![cm_lr](img/cm_lr.png)
+![cm_rfc](img/cm_rf.png)
 
 ## Data Pipeline
-
-Note: Located in the notebook/eda.ipynb
 
 ### Preprocessor
 
@@ -177,7 +167,7 @@ First, I wrote a pipeline_preprocessor() function to produce a re-usable output 
 
 ### Model Fitting
 
-Afterwards, I implemented the fit_log_reg() and fit_rfc_model() functions (located in notebooks/eda.ipynb) to fit the classification models. These functions take the output of pipeline_preprocessor() to:
+Afterwards, I implemented the fit_log_reg() and fit_rfc_model() functions (located in notebooks/eda.ipynb) to fit the output of pipeline_preprocessor() to do the following steps:
 
 - Fit the classification model (Logistic Regression or Random Forest)
 - Test the features against the target
@@ -199,14 +189,18 @@ After fitting and evaluating my three models (log_reg, rfc, and bm), I preserved
 
 ## Streamlit
 
-
 Launch the Streamlit application from the src folder:
 
     cd src/streamlit.py
     streamlit run streamlit.py
 
 ![Homepage](img/tra_homepage.png)
-
+![Model_Coeff](img/tra_coeff.png)
 
 
 ## Future Direction
+
+Improvements:
+
+
+Lessons Learned:
