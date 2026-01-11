@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import joblib
+from pathlib import Path
 
 def loading_df():
-    data_path = r"D:\DDI\terrorism\data\globalterrorismdb_0718dist.csv"
+    data_path = Path("../data/globalterrorismdb_0718dist.csv")
     df = pd.read_csv(data_path)
 
     # Rename columns for ML use
