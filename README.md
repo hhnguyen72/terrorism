@@ -221,10 +221,9 @@ Coefficients/Feature importance for each model is accessible in the Streamlit ap
 
 ## Lessons Learned
 
-Throughout the TAO capstone project, I learned to apply end-to-end ML workflows and experimented with both regression and classification models before selecting the most appropriate approach for a large, complex, and non-systematic dataset. I successfully presented my MVP (TRA) and its technical insights to the capstone's stakeholders without overwhelming the audience. This capstone serves as my portfolio documenting my expertise in EDA, data visualization, machine learning, and scalable deployment in real-world applications.
+Throughout the TAO capstone project, I learned to apply end-to-end ML workflows — from defining the research question, cleaning and visualizing the data, building a reusable data pipeline, to scalable deployment and stakeholder briefing — on a large, fix, and real-world dataset. Experimenting with both regression and classification models to evaluate precision, accuracy, recall, and F1 score helped me understand the trade-offs between approaches and ultimately select the most appropriate model for the task. Deploying TRA via Streamlit taught me the importance of writing efficient, space-conscious scripts, a lesson that will guide the development of future projects. Since there were an abundance of information that I could use in my stakeholder briefing, I needed to condensed and refined my findings to fit a 5 minutes briefing without overwhelming the audience.
 
-Additionally, I am continuing to expand these skills through generative AI and cloud-based ML workflows, which helps me translate classroom and capstone experience into secure, operationally relevant applications.
-
+From TAO, I found it satisfying and fulfilling to develop a data pipeline that automates processing the dataset and training machine learning models. Seeing a modular tool handle the end-to-end workflow was both impressive and motivating. Since completing DDI Cohort 13, I have continued to expand these skills through generative AI and cloud-based machine learning workflows with Google Skills Cloud, which helps me translate classroom and capstone experience into secure, operationally relevant applications. I look forward to applying this expertise across multiple industries (for example, cybersecurity), as exploring different facets of real-world problems is both engaging and rewarding.
 
 ## Future Directions
 
