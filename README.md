@@ -5,8 +5,8 @@
 - [Overview](#overview)
   - [Project Proposal](#project-proposal)
   - [Crediting Dataset](#crediting-dataset)
-  - [Pre-Data Cleaning](#predata-cleaning)
-- [Environment Setup](#environment-setup)
+  - [Pre-Data Cleaning](#pre-data-cleaning)
+  - [Environment Setup](#environment-setup)
 - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Cleaning](#data-cleaning)
   - [Data Visualization](#data-visualization)
@@ -22,20 +22,22 @@
 
 ### Project Proposal
 
-Threat Assessment Operations (TAO) is a capstone project that documents exploratory data analysis and implements machine learning classification models to analyze historical terrorist incident data to support training-oriented Terrorist Risk Assessment via wargaming, scenario-based exercises and interactive user analysis.   
+Threat Assessment Operations (TAO) is a capstone project that documents exploratory data analysis and implements machine learning classification models to analyze historical terrorist incident data to support training-oriented Terrorist Risk Assessment via interactive user analysis.   
 
 Research Question
 
-    - How can we model insights from historical terrorist incidents to enhance training effectiveness and risk awareness in Terrorist Risk Assessment?
+    How can we model insights from historical terrorist incidents to enhance training effectiveness and risk awareness in Terrorist Risk Assessment?
     
 Minimum Viable Product (MVP)
 
-The Terrorist Risk Assessor (TRA) consists of trained machine learning classification models deployed through an interactive Streamlit application. Streamlit enables rapid web-based deployment, allowing live demonstrations through a simple and accessible user interface. TRA is a lightweight wargaming and training tool. Users can interact with historical or hypothetical incident parameters and see how changes affect predicted attack outcomes. The MVP is intended as a complementary analytical tool, supporting Terrorist Risk Assessment by enhancing risk awareness and analytical reasoning rather than replacing human judgment.
+The Terrorist Risk Assessor (TRA) consists of trained machine learning classification models deployed through an interactive Streamlit application. Streamlit enables rapid web-based deployment, allowing live demonstrations through a simple and accessible user interface. TRA is a training tool. Users can interact with historical or hypothetical incident parameters and see how changes affect predicted attack outcomes. The MVP is intended as a complementary analytical tool, supporting Terrorist Risk Assessment by enhancing risk awareness and analytical reasoning rather than replacing human judgment.
 
 ### Crediting Dataset
 
-Dataset: Terrorism Database (GTD)  
-Authors / Maintainers: Study of Terrorism and Responses to Terrorism (START), University of Maryland  
+Dataset: Global Terrorism Database (GTD) 
+
+Authors/Maintainers: Study of Terrorism and Responses to Terrorism (START), University of Maryland  
+
 Data Collected: Historical terrorist incidents worldwide, including attack types, targets, perpetrators, and outcomes
 
 
@@ -46,28 +48,10 @@ Data Collected: Historical terrorist incidents worldwide, including attack types
 
 
 
-### PreData Cleaning 
+### Pre-Data Cleaning 
 
-Data Shape (rows, columns):
+The dataset contains 181,691 incidents × 135 attributes. I wrote a function, info_dtypes(df) (located in notebooks/eda.ipynb), to identify each column’s data type and summarize the distribution of numerical and categorical columns, addressing the omitted column outputs.
 
-    (181691, 135)
-
-Normally, DataFrame.info() lists and prints the data type for each column. However, because this dataset contains 135 columns, the detailed per-column output is omitted here. I have written a function to address the omitted output issue: this function extracts, identifies, and prints each column's dtype, as well as the numerical/categorical columns distribution.
-
-Function:
-
-        def info_dtypes(df):
-          num_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
-          cat_cols = df.select_dtypes(include=['object']).columns.tolist()
-      
-          num_cols_count = df[num_cols].dtypes.count()
-          cat_cols_count = df[cat_cols].dtypes.count()
-      
-          print(f"Dtypes: \n{df.dtypes.value_counts()}\n")
-          print(f"Numerical Columns: {num_cols_count}")
-          print(f"Categorical Columns: {cat_cols_count}")
-          return num_cols, cat_cols
-        num_cols, cat_cols = info_dtypes(df)
 
  Output:
  
@@ -81,79 +65,64 @@ Function:
       | **Total Columns** | —           | 135   |
 
 Numerical Columns (Float64 + Int64): 
-
+    
+    Sample:
     eventid, iyear, imonth, iday, extended, country, region, latitude, longitude, specificity
-    vicinity, crit1, crit2, crit3, doubtterr, alternative, multiple, success, suicide, attacktype1
-    attacktype2, attacktype3, targtype1, targsubtype1, natlty1, targtype2, targsubtype2, natlty2, targtype3, targsubtype3
-    natlty3, guncertain1, guncertain2, guncertain3, individual, nperps, nperpcap, claimed, claimmode, claim2
-    claimmode2, claim3, claimmode3, compclaim, weaptype1, weapsubtype1, weaptype2, weapsubtype2, weaptype3, weapsubtype3
-    weaptype4, weapsubtype4, nkill, nkillus, nkillter, nwound, nwoundus, nwoundte, property, propextent
-    propvalue, ishostkid, nhostkid, nhostkidus, nhours, ndays, ransom, ransomamt, ransomamtus, ransompaid
-    ransompaidus, hostkidoutcome, nreleased, INT_LOG, INT_IDEO, INT_MISC, INT_ANY
 
 
 Categorical Columns (Objects):
 
+    Sample:
     approxdate, resolution, country_txt, region_txt, provstate, city, location, summary, alternative_txt, attacktype1_txt
-    attacktype2_txt, attacktype3_txt, targtype1_txt, targsubtype1_txt, corp1, target1, natlty1_txt, targtype2_txt, targsubtype2_txt, corp2
-    target2, natlty2_txt, targtype3_txt, targsubtype3_txt, corp3, target3, natlty3_txt, gname, gsubname, gname2
-    gsubname2, gname3, gsubname3, motive, claimmode_txt, claimmode2_txt, claimmode3_txt, weaptype1_txt, weapsubtype1_txt, weaptype2_txt
-    weapsubtype2_txt, weaptype3_txt, weapsubtype3_txt, weaptype4_txt, weapsubtype4_txt, weapdetail, propextent_txt, propcomment, divert, kidhijcountry
-    ransomnote, hostkidoutcome_txt, addnotes, scite1, scite2, scite3, dbsource, related
+
 
 NaN/Missing Values:
 
-In this dataset, 106 columns contain NaN or missing values. A majority of those listed columns are sub-categories columns which are optional to fill out. 
-This explains why the ouput shows a wide variation in NaN/missing values across the columns, ranging from nearly all entries missing to only a few. 
-Remember: there is 181691 total entities.
+106 columns contain NaN or missing values. A majority of those listed columns are sub-categories columns which are optional to fill out. This explains why the ouput shows a wide variation in NaN/missing values across the columns, ranging from nearly all entries missing to only a few. 
 
-Sample:
-
-    | Column Name       | Missing Count |
-    |------------------|----------------|
-    | gsubname3         | 181,671       |
-    | weapsubtype4_txt  | 181,621       |
-    | weapsubtype4      | 181,621       |
-    | ...               | ...           |
-    | specificity       | 6             |
-    | multiple          | 1             |
-    | doubtterr         | 1             |
+    Sample:
+    gsubname3           181671
+    weapsubtype4_txt    181621
+                        ...  
+    specificity              6
+    multiple                 1
 
 
 ## Environment Setup
 
 To replicate the environment exactly, run:
 
-    ```bash
-    1. Create the Conda environment from the YAML
+    bash
+
+    1. Create the Conda environment from the YAML file
     conda env create -f ml_global_terror_env.yml
 
     2. Activate the environment
     conda activate ml_global_terror_env
-    '''
+    
 
 ## Exploratory Data Analysis
 
 ### Data Cleaning 
 
-Selecting and renaming which columns to focus.
+Key steps performed on the dataset:
 
-Function:
+- Checked for Duplicates: None found
+- Selected 7 columns out of 135 for target and features
+- Renamed 7 columns for clarity
+- Created 1 derived column ['ismilitary'] based on targttype1_txt  
 
-    def data_man(df):
-        # Renaming Columns to use for ML model
-        rename_cols = df.rename(columns={'iyear': 'Year', 
-                                         'imonth': 'Month', 
-                                         'region_txt': 'Region', 
-                                         'attacktype1_txt': 'Attack_Type', 
-                                         'weaptype1_txt': 'Weapon_Type', 
-                                         'natlty1_txt': 'Nationality'})
-        df = rename_cols
-    df = data_man(df)
+
+![CleanDataset](img/clean_df.png)
+
+Note: The authors/maintainers have already cleaned and formated the dataset; I worked with the pre-processed dataset.
+
+
+### Data Visualization
 
 ![Heatmap](img/heatmap_features.png)
 
-### Data Visualization
+
 
 ![Timeline](img/timeline.png)
 
@@ -164,10 +133,13 @@ Function:
 
 ## Models Selected
 
-Used:
-    sklearn.linear_model: LogisticRgression
-    sklearn.ensemble: RandomForestClassifier
-    Hyperparamter: RandomForestClassfier
+To calculate the probability of a terrorist attack's success, I used  classification model to predict and label the success rate based on user input. I also experimented with predictive (regression) model; however, since the target is categorical rather than continuous, the accuracy was extremely low.  
+
+Here's the following classification models used for the MVP:
+
+    - sklearn.linear_model: LogisticRgression
+    - sklearn.ensemble: RandomForestClassifier
+    - Hyperparameter tuning: RandomForestClassfier
 
 
 ![cm_lr](img/cm_lr.png)
@@ -175,7 +147,10 @@ Used:
 
 ![cm_rfc](img/cm_rf.png)
 
-
+        # 3. Selecting Features and Target
+        X = df[['Year', 'Month', 'Region', 'Attack_Type',
+                'Weapon_Type', 'ismilitary', 'Nationality']]
+        y = df['success']
 
 Features & Target
 
@@ -185,107 +160,52 @@ Features & Target
     y = df['success']
 
 
-![CleanDataset](img/clean_df.png)
-
 
 
 ## Data Pipeline
 
+Note: Located in the notebook/eda.ipynb
+
 ### Preprocessor
 
-    def pipeline_preprocessor():
-        #1. Load Dataset
-        df = pd.read_csv('../data/globalterrorismdb_0718dist.csv')
-        df = df.copy()
-    
-        #2. Data Cleaning
-        df = df.rename(columns={'iyear': 'Year', 'imonth': 'Month','region_txt': 'Region', 
-                                'attacktype1_txt': 'Attack_Type', 'weaptype1_txt': 'Weapon_Type', 'natlty1_txt': 'Nationality'})
-        
-        # Mapping
-        df['ismilitary'] = df['targtype1_txt'].apply(lambda x: 1 if x == 'Military' else 0)
-    
-        # 3. Selecting Features and Target
-        X = df[['Year', 'Month', 'Region', 'Attack_Type',
-                'Weapon_Type', 'ismilitary', 'Nationality']]
-        y = df['success']
-    
-        # 4. Train-test split
-        X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.2, random_state=42, stratify=y)
-    
-        # 5. Identify numeric vs categorical columns
-        numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
-        categorical_features = X.select_dtypes(include=['object']).columns.tolist()
-    
-        # 6. Transform pipelines
-        numeric_transformer = Pipeline(steps=[
-            ("imputer", SimpleImputer(strategy="mean")),
-            ("scaler", MinMaxScaler())
-            ])
-        
-        categorical_transformer = Pipeline(steps=[
-            ("imputer", SimpleImputer(strategy='constant', fill_value='Unknown')),
-            ("onehot", OneHotEncoder(sparse_output=False, handle_unknown="ignore"))
-            ])
-    
-        # 7. Column transformer
-        preprocessor = ColumnTransformer(transformers=[
-            ("num", numeric_transformer, numeric_features),
-            ("cat", categorical_transformer, categorical_features)
-            ])
-        
-        return preprocessor, X_train, X_test, y_train, y_test
-    
-    preprocessor, X_train, X_test, y_train, y_test = pipeline_preprocessor()
+First, I wrote a pipeline_preprocessor() function to produce a re-usable output for multiple classification models. This function performs the following steps:
+
+- Load and clean the dataset
+- Select features and target
+- Split the data into 80% train and 20% test sets
+- Handle numeric and categorical features (imputation, scaling, one-hot encoding)
 
 ### Model Fitting
 
+Afterwards, I implemented the fit_log_reg() and fit_rfc_model() functions (located in notebooks/eda.ipynb) to fit the classification models. These functions take the output of pipeline_preprocessor() to:
 
-    def fit_log_reg(preprocessor, X_train, X_test, y_train, y_test):
-        log_reg_model = Pipeline([
-            ('preprocess', preprocessor),
-            ('model', LogisticRegression(solver='saga'))
-            ])
-    
-        # 9. Fit model
-        log_reg_model.fit(X_train, y_train)
-        log_score = log_reg_model.score(X_test, y_test)
-        y_pred_lr = log_reg_model.predict(X_test)
-    
-        print(f"Logisitic Regression Score: {log_score:.4f}")
-        print(f"Logisitic Regression Accurary: {log_score *100:.2f}")
-        return log_reg_model, log_score, y_pred_lr
-    
-    log_reg_model, log_score, y_pred_lr = fit_log_reg(preprocessor, X_train, X_test, y_train, y_test)
+- Fit the classification model (Logistic Regression or Random Forest)
+- Test the features against the target
+- Print the model’s accuracy score
+- Extract feature importances or model coefficients for interpretation
+
+I also performed hyperparameter tuning for the Random Forest model (bm) to optimize performance, including parameters like the number of estimators, maximum depth, and minimum samples per leaf. This ensures the model achieves better accuracy and generalization.
 
 
 ### Joblib
 
-After fitting and evaluating my three models, I preserved my trained models and their corresponding metadata using joblib to enable reproducibility and deployment.
+After fitting and evaluating my three models (log_reg, rfc, and bm), I preserved my trained models and their corresponding metadata using joblib to enable reproducibility and deployment.
 
-    # Save the model to a file
-    (lg/rfc/bm)_metadata = {
-        "model_name": "(lg/rfc/bm)_terrorist_success_rate",
-        "trained_date": "2025-12-12",
-        "training_data_description": (
-            "Predicting a terrorist attack's success rate based on "
-            "Year, Month, Region, Attack_Type, Weapon_Type, "
-            "ismilitary, and Nationality"
-        ),
-        "accuracy": 0.89,
-        "author": "Hung Nguyen"
-    }
-    
-    # Save the model and metadata to a file
-    joblib.dump({'model': (lg/rfc/bm)_model, 'coefficients': (lg/rfc/bm)_coeff, 'metadata': (lg/rfc/bm)_metadata}, '../model/(lg/rfc/bm)_terrorist_success_rate.joblib')
-    print("(lg/rfc/bm) saved successfully with coeff and metadata.")
+- Model Name and Trained Date
+- Training Data Description
+- Accuracy score/success rate
+- Author Information
 
 
 ## Streamlit
 
-![Homepage](img/tra_homepage.png)
 
+Launch the Streamlit application from the src folder:
+
+    cd src/streamlit.py
+    streamlit run streamlit.py
+
+![Homepage](img/tra_homepage.png)
 
 
 
