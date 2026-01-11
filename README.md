@@ -36,12 +36,27 @@ The Terrorist Risk Assessor (**TRA**) consists of trained machine learning class
 
 ### Crediting Dataset
 
+The original Global Terrorism Database (GTD) contains over 180,000 records with 135 columns, which exceeds GitHub’s file size limits. 
+Therefore, the dataset is not included in this repository.
+
 > **Dataset:** Global Terrorism Database (**GTD**)  
 **Authors/Maintainers:** Study of Terrorism and Responses to Terrorism (**START**), University of Maryland  
 **Data Collected:** Historical terrorist incidents worldwide, including attack types, targets, perpetrators, and outcomes
 
-**Additional Resources:**  
-- [Kaggle GTD dataset](https://www.kaggle.com/datasets/START-UMD/gtd)  
+To replicate this project:
+1. Create a data/ folder in the repository
+
+> mkdir data
+
+2. Download the GTD dataset CSV from Kaggle:
+
+> https://www.kaggle.com/datasets/START-UMD/gtd
+
+3. Place the downloaded CSV file into the data/ folder
+
+> Example: data/globalterrorismdb_0718dist.csv
+
+**Additional Resources:**   
 - [GTD Codebook](https://www.start.umd.edu/gtd/)  
 - [UMD START – GTD Portal](https://www.start.umd.edu/gtd/)
 
